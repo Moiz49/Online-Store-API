@@ -16,14 +16,35 @@
     // get id from URL
     $Sc->Order_Id = isset($_GET['Order_Id']) ? $_GET['Order_Id'] : die();
 
-    $Sc->Get_single();
+        // Get order
+    $result = $Sc->Get_single();
+  
+    // Get row count
+    $num = $result->rowCount();
 
-    $sc_arr = array(
-      'Order_Id' => $Sc->Order_Id,
-      'Art_Id' => $Sc->Art_Id,
-      'Amount' => $Sc->Amount
-    );
+    // Check if any Shopping_cart
+    if($num > 0) {
+      $arr = array();
+      while($row = $result->fetch(PDO::FETCH_ASSOC)) {
+        extract($row);
 
-    print_r(json_encode($sc_arr));
+        $item = array(
+          'Order_Id' => $Order_Id,
+          'Art_Id' => $Art_Id,
+          'Art_name' => $Art_name,
+          'Art_qty' => $Art_qty
+        );
 
-    ?>
+        // Push to "data"
+        array_push($arr, $item);
+      }
+
+      // Turn to JSON & output
+      echo json_encode($arr);
+  
+    } else {
+      // No Shopping_cart
+      echo json_encode(
+        array('message' => 'No shopping_cart_contains Found')
+      );
+    }

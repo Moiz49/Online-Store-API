@@ -39,7 +39,6 @@
 
         $stmt->bindParam(1, $this->Customer_Id);
 
-
         $stmt->execute();
         
         return $stmt;

@@ -41,14 +41,7 @@
 
         $stmt->execute();
 
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        $this->Order_Id = $row['Order_Id'];
-        $this->Status_ = $row['Status_'];
-        $this->Scompany = $row['Scompany'];
-        $this->Ship_date = $row['Ship_date'];
-        $this->Destination = $row['Destination'];
-
+        return $stmt;
       }
 
       public function Post(){
@@ -76,14 +69,12 @@
         $stmt->bindParam(':Ship_date', $this->Ship_date);
         $stmt->bindParam(':Destination', $this->Destination);
 
-
         // execute
         if ($stmt->execute()){
           return true;
         }
 
         printf("Error: %s.\n", $stmt->error);
-
         return false;
       }
 
@@ -93,9 +84,8 @@
         SET Status_ = :Status_,
             Scompany = :Scompany,
             Ship_date = :Ship_date,
-            Destination = :Destination,
+            Destination = :Destination
         WHERE Order_Id = :Order_Id';
-
 
         // prepare Statement
         $stmt = $this->conn->prepare($query);
@@ -120,7 +110,6 @@
         }
 
         printf("Error: %s.\n", $stmt->error);
-
         return false;
       }
 

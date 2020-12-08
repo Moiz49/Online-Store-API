@@ -16,7 +16,7 @@
     // get id from URL
     $Sc->Customer_Id = isset($_GET['Customer_Id']) ? $_GET['Customer_Id'] : die();
 
-        // Get order
+    // Get order
     $result = $Sc->Get_single();
   
     // Get row count

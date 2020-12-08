@@ -27,7 +27,8 @@
         $sc_item = array(
           'Order_Id' => $Order_Id,
           'Art_Id' => $Art_Id,
-          'Amount' => $Amount,
+          'Art_name' => $Art_name,
+          'Art_qty' => $Art_qty,
         );
 
         //push to "data"

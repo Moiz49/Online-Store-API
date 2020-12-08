@@ -16,16 +16,36 @@
     // get id from URL
     $Sc->Order_Id = isset($_GET['Order_Id']) ? $_GET['Order_Id'] : die();
 
-    $Sc->Get_single();
+    // Get order
+    $result = $Sc->Get_single();
+  
+    // Get row count
+    $num = $result->rowCount();
 
-    $sc_arr = array(
-      'Order_Id' => $Sc->Order_Id,
-      'Status_' => $Sc->Status_,
-      'Scompany' => $Sc->Scompany,
-      'Ship_date' => $Sc->Ship_date,
-      'Destination' => $Sc->Destination
-    );
+    // Check if any Order
+    if($num > 0) {
+      $arr = array();
+      while($row = $result->fetch(PDO::FETCH_ASSOC)) {
+        extract($row);
 
-    print_r(json_encode($sc_arr));
+        $item = array(
+          'Order_Id' => $Order_Id,
+          'Status_' => $Status_,
+          'Scompany' => $Scompany,
+          'Ship_date' => $Ship_date,
+          'Destination' => $Destination
+        );
 
-    ?>
+        // Push to "data"
+        array_push($arr, $item);
+      }
+
+      // Turn to JSON & output
+      echo json_encode($arr);
+  
+    } else {
+      // No Order
+      echo json_encode(
+        array('message' => 'No Order Found')
+      );
+    }

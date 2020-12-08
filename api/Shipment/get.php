@@ -21,13 +21,11 @@
     // check is any shopping_cart exist
     if ($num >0){
       $sc_arr = array();
-      $sc_arr['data'] = array();
-
       while ($row = $result->fetch(PDO::FETCH_ASSOC)){
         extract($row);
 
         $sc_item = array(
-          'Order' => $Order_Id,
+          'Order_Id' => $Order_Id,
           'Status_' => $Status_,
           'Scompany' => $Scompany,
           'Ship_date' => $Ship_date,
@@ -35,7 +33,7 @@
         );
 
         //push to "data"
-        array_push($sc_arr['data'],$sc_item);
+        array_push($sc_arr, $sc_item);
       }
       //turn to Json
       echo json_encode($sc_arr);
