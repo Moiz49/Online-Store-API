@@ -10,7 +10,6 @@
       public $Price;
       public $Type_;
 
-
       // constructor with DB
       public function __construct($db){
         $this->conn = $db;
@@ -41,14 +40,7 @@
 
         $stmt->execute();
 
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        $this->Art_Id = $row['Art_Id'];
-        $this->Art_name = $row['Art_name'];
-        $this->Quantity = $row['Quantity'];
-        $this->Price = $row['Price'];
-        $this->Type_ = $row['Type_'];
-
+        return $stmt;
       }
 
       public function Post(){

@@ -3,11 +3,10 @@
     header('Access-Control-Allow-Origin: *');
     header('Content-Type: application/json');
     header('Access-Control-Allow-Methods: POST');
-    header('Access-Control-Allow-Headers: Access-Control-Allow-Methods, Content-Type,
-    Access-Control-Allow-Headers, Authorization, X-Requested-With');
-
+    header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods,   Authorization,X-Requested-With');
+  
     include_once '../../config/Database.php';
-    include_once '../../Models/Shopping_cart.php';
+    include_once '../../models/Shopping_cart.php';
 
     // start db and connect
     $database = new Database();
@@ -20,7 +19,6 @@
     $data = json_decode(file_get_contents("php://input"));
 
     $Sc->Customer_Id = $data->Customer_Id;
-    //$Sc->Art_Id = $data->Art_Id;
     $Sc->Total_cost = $data->Total_cost;
 
     if ($Sc->Post()){

@@ -21,8 +21,6 @@
     // check is any shopping_cart exist
     if ($num >0){
       $sc_arr = array();
-      $sc_arr['data'] = array();
-
       while ($row = $result->fetch(PDO::FETCH_ASSOC)){
         extract($row);
 
@@ -33,12 +31,12 @@
         );
 
         //push to "data"
-        array_push($sc_arr['data'],$sc_item);
+        array_push($sc_arr, $sc_item);
       }
       //turn to Json
       echo json_encode($sc_arr);
     }else{
       // no shopping carts
-      echo json_encode(array('message' => 'No Order found'));
+      echo json_encode(array('message' => 'No Item found'));
     }
  ?>

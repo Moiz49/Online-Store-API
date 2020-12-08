@@ -6,7 +6,7 @@
 
       public $Order_Id;
       public $Art_Id;
-      public $Amount;
+      public $Art_qty;
 
       // constructor with DB
       public function __construct($db){
@@ -16,8 +16,11 @@
       // Get Shopping_cart
       public function Get(){
         // Create query
-        $query = 'SELECT *
-                  FROM ' . $this->table;
+        $query = 'SELECT O.Order_Id, O.Art_Id, I.Art_name, O.Art_qty
+                  FROM ' . $this->table . ' AS O 
+                  LEFT JOIN art_item AS I ON O.Art_Id = I.Art_Id
+                  ORDER BY O.Order_Id';
+
         $stmt = $this->conn->prepare($query);
 
         $stmt->execute();

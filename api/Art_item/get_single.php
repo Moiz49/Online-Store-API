@@ -10,22 +10,32 @@
     $database = new Database();
     $db = $database->connect();
 
-    // Instantiate Shopping_cart object
+    // Instantiate Art_item object
     $Sc = new Art_item($db);
 
     // get id from URL
     $Sc->Art_Id = isset($_GET['Art_Id']) ? $_GET['Art_Id'] : die();
 
-    $Sc->Get_single();
 
-    $sc_arr = array(
-      'Art_Id' => $Sc->Art_Id,
-      'Art_name' => $Sc->Art_name,
-      'Quantity' => $Sc->Quantity,
-      'Price' => $Sc->Price,
-      'Type_' => $Sc->Type_
-    );
+    // Get Art_item
+    $result = $Sc->Get_single();
+  
+    $row = $result->fetch(PDO::FETCH_ASSOC);
+  
+    if ($row != NULL){
+      // Create array
+      $arr = array(
+        'Art_Id' => $row['Art_Id'],
+        'Art_name' => $row['Art_name'],
+        'Quantity' => $row['Quantity'],
+        'Price' => $row['Price'],
+        'Type_' => $row['Type_']
+      );
 
-    print_r(json_encode($sc_arr));
-
-    ?>
+      // Make JSON
+      print_r(json_encode($arr));
+    } else {
+      echo json_encode(
+      array('message' => 'No Art_item Found')
+      );
+    }

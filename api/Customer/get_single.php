@@ -11,20 +11,28 @@
     $db = $database->connect();
 
     // Instantiate Shopping_cart object
-    $Sc = new Customer($db);
+    $customer = new Customer($db);
 
     // get id from URL
-    $Sc->Customer_Id = isset($_GET['Customer_Id']) ? $_GET['Customer_Id'] : die();
+    $customer->Customer_Id = isset($_GET['Customer_Id']) ? $_GET['Customer_Id'] : die();
 
-    $Sc->Get_single();
+    $result = $customer->Get_single();
 
-    $sc_arr = array(
-      'Customer_Id' => $Sc->Customer_Id,
-      'Name_' => $Sc->Name_,
-      'Email_address' => $Sc->Email_address,
-      'Address' => $Sc->Address
-    );
+    $row = $result->fetch(PDO::FETCH_ASSOC);
 
-    print_r(json_encode($sc_arr));
+    if ($row != NULL){
+      // Create array
+      $arr = array(
+        'Customer_Id' => $row['Customer_Id'],
+        'Name_' => $row['Name_'],
+        'Email_address' => $row['Email_address'],
+        'Address' => $row['Address']
+      );
 
-    ?>
+      // Make JSON
+      print_r(json_encode($arr));
+    } else {
+      echo json_encode(
+        array('message' => 'No Admin Found')
+      );
+    }

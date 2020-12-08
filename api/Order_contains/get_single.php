@@ -15,8 +15,6 @@
 
     // get id from URL
     $Sc->Order_Id = isset($_GET['Order_Id']) ? $_GET['Order_Id'] : die();
-    $Sc->Art_Id = isset($_GET['Art_Id']) ? $_GET['Art_Id'] : die();
-
 
     $Sc->Get_single();
 

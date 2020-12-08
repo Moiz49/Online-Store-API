@@ -10,7 +10,7 @@
     $database = new Database();
     $db = $database->connect();
 
-    // Instantiate Shopping_cart object
+    // Instantiate Art_item object
     $Sc = new Art_item($db);
 
     // call the get method
@@ -18,7 +18,7 @@
     // get num of rows
     $num = $result->rowCount();
 
-    // check is any shopping_cart exist
+    // check is any Art_item exist
     if ($num >0){
       $sc_arr = array();
       while ($row = $result->fetch(PDO::FETCH_ASSOC)){
@@ -38,7 +38,7 @@
       //turn to Json
       echo json_encode($sc_arr);
     }else{
-      // no shopping carts
+      // no Art_item
       echo json_encode(array('message' => 'No Art_item found'));
     }
  ?>

@@ -7,7 +7,6 @@
       public $Customer_Id;
       public $Order_Id;
       public $Final_cost;
-      public $Art_Id;
 
 
       // constructor with DB
@@ -18,9 +17,10 @@
       // Get Shopping_cart
       public function Get(){
         // Create query
-        $query = 'SELECT S.Order_Id, S.Customer_Id, A.Art_Id, S.Final_cost
-                  FROM ' . $this->table . ' as S LEFT JOIN order_contains A ON
-                  S.Order_Id = A.Order_Id';
+        $query = 'SELECT S.Order_Id, S.Customer_Id, S.Final_cost
+                  FROM ' . $this->table . ' as S 
+                  ORDER BY S.Order_Id';
+
         $stmt = $this->conn->prepare($query);
 
         $stmt->execute();
@@ -31,9 +31,8 @@
       // get single shopping cart
       public function Get_single(){
         // Create query
-        $query = 'SELECT S.Order_Id, S.Customer_Id, A.Art_Id, S.Final_cost
-                  FROM ' . $this->table . ' as S LEFT JOIN order_contains A ON
-                  S.Order_Id = A.Order_Id
+        $query = 'SELECT S.Order_Id, S.Customer_Id, S.Final_cost
+                  FROM ' . $this->table . ' as S 
                   WHERE S.Order_Id = ?';
 
         $stmt = $this->conn->prepare($query);
@@ -42,12 +41,7 @@
 
         $stmt->execute();
 
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        $this->Customer_Id = $row['Customer_Id'];
-        $this->Order_Id = $row['Order_Id'];
-        $this->Art_Id = $row['Art_Id'];
-        $this->Final_cost = $row['Final_cost'];
+        return $stmt;
       }
 
       public function Post(){
@@ -83,24 +77,19 @@
 
       public function Put(){
 
-        $query = 'UPDATE' .$this->table . '
-        SET Customer_Id = :Customer_Id,
-            Final_cost = :Final_cost
+        $query = 'UPDATE ' .$this->table . '
+        SET Final_cost = :Final_cost
         WHERE Order_Id = :Order_Id';
 
         // prepare Statement
         $stmt = $this->conn->prepare($query);
 
         //clean Data
-        $this->Customer_Id = htmlspecialchars(strip_tags($this->Customer_Id));
         $this->Order_Id = htmlspecialchars(strip_tags($this->Order_Id));
-        //$this->Art_Id = htmlspecialchars(strip_tags($this->Art_Id));
         $this->Final_cost = htmlspecialchars(strip_tags($this->Final_cost));
 
         //bind the data
-        $stmt->bindParam(':Customer_Id', $this->Customer_Id);
         $stmt->bindParam(':Order_Id', $this->Order_Id);
-        //$stmt->bindParam(':Art_Id', $this->Art_Id);
         $stmt->bindParam(':Final_cost', $this->Final_cost);
 
         // execute

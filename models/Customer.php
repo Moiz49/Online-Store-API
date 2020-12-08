@@ -30,9 +30,9 @@
       // get single shopping cart
       public function Get_single(){
         // Create query
-        $query = 'SELECT *
-                  FROM ' . $this->table . ' as S
-                  WHERE S.Customer_Id = ?';
+        $query = 'SELECT Customer_Id, Name_, Email_address, Address
+                  FROM ' . $this->table . ' 
+                  WHERE Customer_Id = ? LIMIT 0,1';
 
         $stmt = $this->conn->prepare($query);
 
@@ -40,12 +40,7 @@
 
         $stmt->execute();
 
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        $this->Customer_Id = $row['Customer_Id'];
-        $this->Name_ = $row['Name_'];
-        $this->Email_address = $row['Email_address'];
-        $this->Address = $row['Address'];
+        return $stmt;
       }
 
       public function Post(){

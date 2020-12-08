@@ -7,6 +7,7 @@
       public $Customer_Id;
       public $Total_cost;
       public $Art_Id;
+      public $Art_name;
 
       // constructor with DB
       public function __construct($db){
@@ -16,9 +17,14 @@
       // Get Shopping_cart
       public function Get(){
         // Create query
-        $query = 'SELECT S.Customer_Id, A.Art_Id, S.Total_cost
-                  FROM ' . $this->table . ' as S LEFT JOIN shopping_cart_contains A ON
-                  S.Customer_Id = A.Customer_Id';
+        $query = 'SELECT S.Customer_Id, S.Total_cost
+                  FROM ' . $this->table . ' AS S 
+                  ORDER BY S.Customer_Id';
+        
+        //C.Art_Id, I.Art_name
+        //LEFT JOIN shopping_cart_contains AS C ON S.Customer_Id = C.Customer_Id
+        //LEFT JOIN art_item AS I ON C.Art_Id = I.Art_Id
+
         $stmt = $this->conn->prepare($query);
 
         $stmt->execute();
@@ -29,22 +35,21 @@
       // get single shopping cart
       public function Get_single(){
         // Create query
-        $query = 'SELECT S.Customer_Id, A.Art_Id, S.Total_cost
-                  FROM ' . $this->table . ' as S LEFT JOIN shopping_cart_contains A ON
-                  S.Customer_Id = A.Customer_Id
+        $query = 'SELECT S.Customer_Id, S.Total_cost 
+                  FROM ' . $this->table . ' AS S 
                   WHERE S.Customer_Id = ?';
 
+        //C.Art_Id, I.Art_name
+        //LEFT JOIN shopping_cart_contains AS C ON S.Customer_Id = C.Customer_Id
+        //LEFT JOIN art_item AS I ON C.Art_Id = I.Art_Id
+        
         $stmt = $this->conn->prepare($query);
 
         $stmt->bindParam(1, $this->Customer_Id);
 
         $stmt->execute();
 
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        $this->Customer_Id = $row['Customer_Id'];
-        $this->$Art_Id = $row['Art_Id'];
-        $this->$Total_cost = $row['Total_cost'];
+        return $stmt;
       }
 
       public function Post(){
@@ -57,12 +62,10 @@
 
         //clean Data
         $this->Customer_Id = htmlspecialchars(strip_tags($this->Customer_Id));
-        //$this->Art_Id = htmlspecialchars(strip_tags($this->Art_Id));
         $this->Total_cost = htmlspecialchars(strip_tags($this->Total_cost));
 
         //bind the data
         $stmt->bindParam(':Customer_Id', $this->Customer_Id);
-        //$stmt->bindParam(':Art_Id', $this->Art_Id);
         $stmt->bindParam(':Total_cost', $this->Total_cost);
 
         // execute
@@ -85,12 +88,10 @@
 
         //clean Data
         $this->Customer_Id = htmlspecialchars(strip_tags($this->Customer_Id));
-        //$this->Art_Id = htmlspecialchars(strip_tags($this->Art_Id));
         $this->Total_cost = htmlspecialchars(strip_tags($this->Total_cost));
 
         //bind the data
         $stmt->bindParam(':Customer_Id', $this->Customer_Id);
-        //$stmt->bindParam(':Art_Id', $this->Art_Id);
         $stmt->bindParam(':Total_cost', $this->Total_cost);
 
         // execute

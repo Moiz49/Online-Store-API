@@ -3,11 +3,10 @@
     header('Access-Control-Allow-Origin: *');
     header('Content-Type: application/json');
     header('Access-Control-Allow-Methods: DELETE');
-    header('Access-Control-Allow-Headers: Access-Control-Allow-Methods, Content-Type,
-    Access-Control-Allow-Headers, Authorization, X-Requested-With');
-
+    header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods,   Authorization,X-Requested-With');
+  
     include_once '../../config/Database.php';
-    include_once '../../Models/shopping_cart_contains.php';
+    include_once '../../models/shopping_cart_contains.php';
 
     // start db and connect
     $database = new Database();
@@ -21,6 +20,7 @@
 
 
     $Sc->Customer_Id = $data->Customer_Id;
+    $Sc->Art_Id = $data->Art_Id;
 
     if ($Sc->Delete()){
       echo json_encode(array('message' => 'Shopping cart Deleted'));
