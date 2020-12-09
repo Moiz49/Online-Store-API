@@ -30,8 +30,6 @@
 
       $item = array(
         'SO_Id' => $SO_Id,
-        'Username' => $Username,
-        'Mat_Id' => $Mat_Id,
         'Supplier_name' => $Supplier_name
       );
 

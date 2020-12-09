@@ -7,8 +7,6 @@
     // Properties
     public $SO_Id;
     public $Supplier_name;
-    public $Username;
-    public $Mat_Id;
 
     // Constructor with DB
     public function __construct($db) {
@@ -18,9 +16,8 @@
     // Get Supply_Order
     public function get() {
       // Create query
-      $query = 'SELECT s.SO_Id, a.Username, a.Mat_Id, s.Supplier_name 
+      $query = 'SELECT s.SO_Id,  s.Supplier_name 
                 FROM ' . $this->table . ' AS s 
-                LEFT JOIN admin_material_order AS a ON s.SO_Id = a.SO_Id
                 ORDER BY s.SO_Id';
 
       // Prepare statement
@@ -35,9 +32,8 @@
     // Get Single Supply_Order
     public function get_single(){
       // Create query
-      $query = 'SELECT s.SO_Id, a.Username, a.Mat_Id, s.Supplier_name 
+      $query = 'SELECT s.SO_Id, s.Supplier_name 
                 FROM ' . $this->table . ' AS s 
-                LEFT JOIN admin_material_order AS a ON s.SO_Id = a.SO_Id
                 WHERE s.SO_Id = ?';
       
       //Prepare statement
