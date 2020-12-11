@@ -7,6 +7,8 @@
 -- Server version: 10.4.16-MariaDB
 -- PHP Version: 7.4.12
 
+create Database if not exists storedatabase;
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";

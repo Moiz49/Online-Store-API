@@ -23,6 +23,7 @@ Type_ int);
 create table if not exists storedatabase.SHOPPING_CART_CONTAINS(
 Customer_Id int NOT NULL,
 Art_Id int NOT NULL,
+Art_qty int,
 PRIMARY KEY (Customer_Id, Art_Id),
 FOREIGN KEY (Customer_Id) REFERENCES CUSTOMER(Customer_Id)
 ON DELETE CASCADE
@@ -49,9 +50,10 @@ FOREIGN KEY (Order_Id) REFERENCES ORDERS(Order_Id)
 ON DELETE CASCADE
 ON UPDATE CASCADE);
 
-create table if not exists storedatabase.ORDER_CONATAINS(
+create table if not exists storedatabase.ORDER_CONTAINS(
 Order_id int NOT NULL,
 Art_Id int NOT NULL,
+Art_qty int,
 PRIMARY KEY (Order_Id, Art_Id),
 FOREIGN KEY (Art_Id) REFERENCES ART_ITEM(Art_Id)
 ON DELETE CASCADE
